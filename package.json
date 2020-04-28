@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "npm run lint && dotenv -e .env npm run start:offline",
-    "start:offline": "sls offline start --port=3030",
+    "start:offline": "sls offline start --port=3000",
     "deploy:stg": "dotenv -e .env sls deploy --stage stg",
     "deploy:prod": "dotenv -e .env sls deploy --stage prod",
     "env": "sync-dotenv",

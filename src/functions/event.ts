@@ -1,7 +1,5 @@
 import {
-  formatResponseBodyGet,
   formatResponseObject,
-  parseResponseBodyProperties,
 } from '../utils/response';
 export const eventCatch = async (event) => {
   const body = event.body ? JSON.parse(event.body) : null;
@@ -9,8 +7,9 @@ export const eventCatch = async (event) => {
   try {
     console.log(JSON.stringify(body))
 
-    // Return response
-    return formatResponseObject(body);
+    if (body.challenge) return formatResponseObject({challenge: body.challenge});
+
+    formatResponseObject(body);
   } catch (error) {
     console.error(error);
 
