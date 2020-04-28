@@ -1,8 +1,9 @@
-import {
-  formatResponseObject,
-} from '../utils/response';
+import axios from 'axios';
+import {formatResponseObject} from '../utils/response';
+
 export const eventCatch = async (event) => {
   const body = event.body ? JSON.parse(event.body) : null;
+  const token = body.token;
 
   console.log(JSON.stringify(body));
 
@@ -15,9 +16,19 @@ export const eventCatch = async (event) => {
      * Get file data to analyze
      */
 
-    console.log(JSON.stringify(body.event))
+    console.log(JSON.stringify(body))
 
     const fileId = body.event.type === 'file_shared' ? body.event.file_id : null;
+
+    const filesListResponse = await axios({
+      method: 'GET',
+      url: 'https://slack.com/api/files.list',
+      params: {
+        token,
+      },
+    });
+
+    console.log(filesListResponse);
 
     if (fileId) {
       console.log('File ID ==> ', fileId);
