@@ -1,4 +1,5 @@
 import axios from 'axios';
+import * as qs from 'querystring';
 import {formatResponseObject} from '../utils/response';
 
 export const eventCatch = async (event) => {
@@ -19,16 +20,22 @@ export const eventCatch = async (event) => {
     console.log(JSON.stringify(body))
 
     const fileId = body.event.type === 'file_shared' ? body.event.file_id : null;
+    const userId = body.event.user_id;
 
     const filesListResponse = await axios({
-      method: 'GET',
+      method: 'POST',
       url: 'https://slack.com/api/files.list',
-      params: {
-        token,
+      data: qs.stringify({token}),
+      headers: {
+        'content-type': 'application/x-www-form-urlencoded',
+        'Authorization': `Bearer ${token}`,
+        'X-Slack-User': userId,
       },
     });
 
-    console.log(filesListResponse);
+    console.log(filesListResponse.config);
+
+    console.log(filesListResponse.data);
 
     if (fileId) {
       console.log('File ID ==> ', fileId);
