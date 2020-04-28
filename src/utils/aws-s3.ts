@@ -5,6 +5,8 @@ const {AWS_S3_UPLOAD_BUCKET} = process.env;
 const s3 = new AWS.S3();
 
 export const putS3Object = async (id: string, body, format) => {
+  console.log(AWS_S3_UPLOAD_BUCKET);
+
   try {
     const filePath = `${id}.${format.toLowerCase()}`;
     const s3Params: any = {

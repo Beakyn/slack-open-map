@@ -22,11 +22,11 @@
     "email": "contact@beakyn.com"
   },
   "dependencies": {
-    "aws-sdk": "2.664.0",
+    "aws-sdk": "2.665.0",
     "axios": "0.19.2",
-    "lodash-pickdeep": "^1.0.2",
-    "querystring": "^0.2.0",
-    "shortid": "^2.2.15"
+    "lodash-pickdeep": "1.0.2",
+    "querystring": "0.2.0",
+    "shortid": "2.2.15"
   },
   "devDependencies": {
     "@types/axios": "0.14.0",
@@ -42,10 +42,11 @@
     "eslint-plugin-no-null": "1.0.2",
     "eslint-plugin-prefer-arrow": "1.2.0",
     "husky": "4.2.5",
-    "jest": "25.4.0",
+    "jest": "25.5.0",
     "lint-staged": "10.2.0",
     "prettier": "2.0.5",
     "serverless-content-encoding": "1.1.0",
+    "serverless-iam-roles-per-function": "2.0.2",
     "serverless-offline": "6.1.4",
     "serverless-plugin-optimize": "4.1.4-rc.1",
     "serverless-plugin-typescript": "1.1.9",

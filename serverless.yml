@@ -87,8 +87,9 @@ resources:
         StatusCode: "401"
 
 plugins:
-  - serverless-offline
+  - serverless-iam-roles-per-function
   - serverless-plugin-typescript
+  - serverless-offline
   - serverless-content-encoding
   - serverless-prune-plugin
   - serverless-plugin-optimize
