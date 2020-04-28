@@ -18,7 +18,6 @@ provider:
     Owner: "jp@beakyn.com"
     Project: "Slack Map"
   environment:
-    SLACK_APP_TOKEN: ${env:SLACK_APP_TOKEN}
     SLACK_BOT_TOKEN: ${env:SLACK_BOT_TOKEN}
     AWS_S3_UPLOAD_BUCKET: ${env:AWS_S3_UPLOAD_BUCKET}
     ROOT_URL: ${env:ROOT_URL}

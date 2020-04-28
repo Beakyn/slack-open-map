@@ -1,7 +1,7 @@
 import axios from 'axios';
 import * as qs from 'querystring';
 
-const {SLACK_BOT_TOKEN, SLACK_APP_TOKEN} = process.env;
+const {SLACK_BOT_TOKEN} = process.env;
 
 export const slackFileInfo = async (file: string) => {
   try {
@@ -9,7 +9,7 @@ export const slackFileInfo = async (file: string) => {
       method: 'POST',
       url: 'https://slack.com/api/files.info',
       data: qs.stringify({
-        token: SLACK_APP_TOKEN,
+        token: SLACK_BOT_TOKEN,
         file: file,
       }),
       headers: {

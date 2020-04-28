@@ -1,12 +1,6 @@
-
-
-import axios from 'axios';
-import * as qs from 'querystring';
 import {formatResponseObject} from '../utils/response';
 import {slackFileInfo, slackPostMessage} from '../utils/slack';
 import {openBlock} from '../utils/message-blocks';
-
-const {SLACK_APP_TOKEN, SLACK_BOT_TOKEN} = process.env;
 
 export const eventCatch = async (event) => {
   const body = event.body ? JSON.parse(event.body) : null;
