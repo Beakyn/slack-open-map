@@ -7,7 +7,19 @@ export const eventCatch = async (event) => {
   try {
     console.log(JSON.stringify(body))
 
-    if (body.challenge) return formatResponseObject({challenge: body.challenge});
+    // Return Challenge if asked.
+    if (body.event.type === 'url_verification')
+      return formatResponseObject({challenge: body.challenge});
+
+    /**
+     * Get file data to analyze
+     */
+    const fileId = body.event?.type === 'file_shared' ? body.event.file_id : null;
+
+    if (fileId) {
+      console.log('File ID ==> ', fileId);
+      // Download file...
+    }
 
     formatResponseObject(body);
   } catch (error) {
