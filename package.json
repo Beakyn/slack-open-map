@@ -7,7 +7,7 @@
     "url": "https://github.com/Beakyn/slack-map"
   },
   "scripts": {
-    "dev": "npm run lint && dotenv -e .env npm run start:offline",
+    "dev": "dotenv -e .env npm run start:offline",
     "start:offline": "sls offline start",
     "deploy:stg": "dotenv -e .env sls deploy --stage stg",
     "deploy:prod": "dotenv -e .env sls deploy --stage prod",

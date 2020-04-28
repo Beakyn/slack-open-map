@@ -1,12 +1,14 @@
+const fs = require('fs');
+
 import axios from 'axios';
 import * as qs from 'querystring';
 import {formatResponseObject} from '../utils/response';
+import {openBlock} from '../utils/message-blocks';
+
+const {SLACK_APP_TOKEN, SLACK_BOT_TOKEN} = process.env;
 
 export const eventCatch = async (event) => {
   const body = event.body ? JSON.parse(event.body) : null;
-  const token = body.token;
-
-  console.log(JSON.stringify(body));
 
   try {
     // Return Challenge if asked.
@@ -16,31 +18,56 @@ export const eventCatch = async (event) => {
     /**
      * Get file data to analyze
      */
-
     console.log(JSON.stringify(body))
 
-    const fileId = body.event.type === 'file_shared' ? body.event.file_id : null;
-    const userId = body.event.user_id;
-
-    const filesListResponse = await axios({
+    const fileId = body.event?.file_id;
+    const fileInfoResponse = await axios({
       method: 'POST',
-      url: 'https://slack.com/api/files.list',
-      data: qs.stringify({token}),
+      url: 'https://slack.com/api/files.info',
+      data: qs.stringify({
+        token: SLACK_APP_TOKEN,
+        file: fileId,
+      }),
       headers: {
         'content-type': 'application/x-www-form-urlencoded',
-        'Authorization': `Bearer ${token}`,
-        'X-Slack-User': userId,
       },
     });
 
-    console.log(filesListResponse.config);
+    const fileInfo = fileInfoResponse.data.file;
+    const channelId = fileInfoResponse.data.file.groups[0];
 
-    console.log(filesListResponse.data);
+    /**
+     * If file isn't CSV, JSON or GeoJSON return
+     */
+    if (['CSV', 'JSON', 'GEOJSON'].includes(fileInfo.pretty_type)) {
+      const postMessageResponse = await axios({
+        method: 'POST',
+        url: 'https://slack.com/api/chat.postMessage',
+        data: qs.stringify({
+          token: SLACK_BOT_TOKEN,
+          channel: channelId,
+          text: 'Hello World',
+          blocks: openBlock(fileId, fileInfo.name),
+        }),
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded',
+        },
+      });
 
-    if (fileId) {
-      console.log('File ID ==> ', fileId);
-      // Download file...
+      console.log(postMessageResponse.data);
     }
+
+    // console.log('Axios Config =>', fileInfoResponse.config);
+    // console.log('File ID =>', fileInfoResponse.data);
+
+    /**
+     * Upload content to S3 bucket. Save with original file name.
+     * Return public URL.
+     */
+
+    /**
+     *
+     */
 
     return formatResponseObject(body);
   } catch (error) {

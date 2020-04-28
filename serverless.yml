@@ -18,6 +18,8 @@ provider:
     Owner: "jp@beakyn.com"
     Project: "Slack Map"
   environment:
+    SLACK_APP_TOKEN: ${env:SLACK_APP_TOKEN}
+    SLACK_BOT_TOKEN: ${env:SLACK_BOT_TOKEN}
     NODE_ENV: ${env:NODE_ENV}
 
 functions:
