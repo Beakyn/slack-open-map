@@ -1,0 +1,79 @@
+service: slack-map
+
+frameworkVersion: ">=1.1.0 <2.0.0"
+
+provider:
+  name: aws
+  region: us-east-1
+  runtime: nodejs12.x
+  memorySize: 256
+  timeout: 30
+  logRetentionInDays: 90
+  stackTags:
+    Contractor: "Beakyn"
+    Owner: "jp@beakyn.com"
+    Project: "Slack Map"
+  tags:
+    Contractor: "Beakyn"
+    Owner: "jp@beakyn.com"
+    Project: "Slack Map"
+  environment:
+    NODE_ENV: ${env:NODE_ENV}
+
+functions:
+  eventCatch:
+    handler: src/functions/event.eventCatch
+    description: Slack Map / Catch Event
+    events:
+      - http:
+          path: /
+          method: post
+          cors:
+            origin: "*"
+            headers:
+              - Content-Type
+              - content-type
+              - Authorization
+              - authorization
+              - X-Tenant-ID
+              - x-tenant-id
+resources:
+  Resources:
+    # This response is needed for custom authorizer failures cors support ¯\_(ツ)_/¯
+    GatewayResponse:
+      Type: "AWS::ApiGateway::GatewayResponse"
+      Properties:
+        ResponseParameters:
+          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Headers: "'*'"
+        ResponseType: EXPIRED_TOKEN
+        RestApiId:
+          Ref: "ApiGatewayRestApi"
+        StatusCode: "401"
+    AuthFailureGatewayResponse:
+      Type: "AWS::ApiGateway::GatewayResponse"
+      Properties:
+        ResponseParameters:
+          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Headers: "'*'"
+        ResponseType: UNAUTHORIZED
+        RestApiId:
+          Ref: "ApiGatewayRestApi"
+        StatusCode: "401"
+
+plugins:
+  - serverless-offline
+  - serverless-plugin-typescript
+  - serverless-content-encoding
+  - serverless-prune-plugin
+  - serverless-plugin-optimize
+
+package:
+  individually: true
+
+custom:
+  contentEncoding:
+    minimumCompressionSize: 0
+  prune:
+    automatic: true
+    number: 3

@@ -1,9 +1,60 @@
 {
-  "name": "slack-map",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
+  "name": "slack-app",
+  "version": "0.1.0",
+  "description": "A Slack app to open files with location data on an external map.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Beakyn/slack-map"
+  },
+  "scripts": {
+    "dev": "npm run lint && dotenv -e .env npm run start:offline",
+    "start:offline": "sls offline start --port=3030",
+    "deploy:stg": "dotenv -e .env sls deploy --stage stg",
+    "deploy:prod": "dotenv -e .env sls deploy --stage prod",
+    "env": "sync-dotenv",
+    "lint": "eslint ./src --ext .js,.ts",
+    "lint-fix": "eslint ./src --ext .js,.ts --fix",
+    "test": "jest"
+  },
+  "license": "UNLICENSED",
+  "author": {
+    "name": "Beakyn",
+    "email": "contact@beakyn.com"
+  },
   "dependencies": {
-    "node-fetch": "2.6.0"
+    "aws-sdk": "2.659.0",
+    "axios": "0.19.2",
+    "lodash-pickdeep": "^1.0.2"
+  },
+  "devDependencies": {
+    "@types/axios": "0.14.0",
+    "@types/elasticsearch": "5.0.36",
+    "@types/jest": "25.2.1",
+    "@typescript-eslint/eslint-plugin": "2.29.0",
+    "@typescript-eslint/eslint-plugin-tslint": "2.29.0",
+    "@typescript-eslint/parser": "2.29.0",
+    "dotenv-cli": "3.1.0",
+    "eslint": "6.8.0",
+    "eslint-import-resolver-typescript": "2.0.0",
+    "eslint-plugin-import": "2.20.2",
+    "eslint-plugin-no-null": "1.0.2",
+    "eslint-plugin-prefer-arrow": "1.2.0",
+    "husky": "4.2.5",
+    "jest": "25.4.0",
+    "lint-staged": "10.1.6",
+    "prettier": "2.0.4",
+    "serverless-content-encoding": "1.1.0",
+    "serverless-offline": "6.1.4",
+    "serverless-plugin-optimize": "4.1.4-rc.1",
+    "serverless-plugin-typescript": "1.1.9",
+    "serverless-prune-plugin": "1.4.2",
+    "sync-dotenv": "2.6.0",
+    "ts-jest": "25.4.0",
+    "tslint": "6.1.1",
+    "tslint-config-prettier": "1.18.0",
+    "tslint-eslint-rules": "5.4.0",
+    "tslint-plugin-prettier": "2.3.0",
+    "typescript": "3.8.3",
+    "yarn-lock-sync": "0.3.3"
   }
 }

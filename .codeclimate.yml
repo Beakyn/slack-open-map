@@ -1,0 +1,19 @@
+plugins:
+  tslint:
+    enabled: true
+    config: tslint.json
+  nodesecurity:
+    enabled: true
+checks:
+  file-lines:
+    enabled: true
+    config:
+      threshold: 300
+  method-lines:
+    enabled: true
+    config:
+      threshold: 50
+  similar-code:
+    enabled: false
+    config:
+      threshold: 100

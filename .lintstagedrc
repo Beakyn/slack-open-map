@@ -1,0 +1,10 @@
+{
+  "*": "yarn sync-env",
+
+  "{package.json,yarn.lock}": [
+    "yarn-lock-sync --fix-wildcards"
+  ],
+  "{utils,functions}/**/*.ts": [
+    "yarn lint-fix"
+  ]
+}
