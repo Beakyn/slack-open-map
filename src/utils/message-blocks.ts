@@ -19,17 +19,19 @@ export const openBlock = (fileId, fileName) => JSON.stringify(
 						'type': 'plain_text',
 						'text': 'Yes',
 						'emoji': true
-					},
-					'value': fileId
+          },
+          'url': 'https://kepler.gl/demo',
+          'style': 'primary',
+					'value': fileId,
 				},
 				{
 					'type': 'button',
 					'text': {
 						'type': 'plain_text',
 						'text': 'No',
-						'emoji': true
+						'emoji': true,
 					},
-					'value': 'click_me_123'
+					'value': 'NO',
 				}
 			]
 		}
