@@ -1,8 +1,9 @@
-const fs = require('fs');
+
 
 import axios from 'axios';
 import * as qs from 'querystring';
 import {formatResponseObject} from '../utils/response';
+import {slackFileInfo, slackPostMessage} from '../utils/slack';
 import {openBlock} from '../utils/message-blocks';
 
 const {SLACK_APP_TOKEN, SLACK_BOT_TOKEN} = process.env;
@@ -11,63 +12,28 @@ export const eventCatch = async (event) => {
   const body = event.body ? JSON.parse(event.body) : null;
 
   try {
-    // Return Challenge if asked.
+    // Return Challenge if asked
     if (body?.type === 'url_verification')
       return formatResponseObject({challenge: body.challenge});
 
-    /**
-     * Get file data to analyze
-     */
+    // Log the body for debugging
     console.log(JSON.stringify(body))
 
+    // Cache file ID
     const fileId = body.event?.file_id;
-    const fileInfoResponse = await axios({
-      method: 'POST',
-      url: 'https://slack.com/api/files.info',
-      data: qs.stringify({
-        token: SLACK_APP_TOKEN,
-        file: fileId,
-      }),
-      headers: {
-        'content-type': 'application/x-www-form-urlencoded',
-      },
-    });
 
-    const fileInfo = fileInfoResponse.data.file;
-    const channelId = fileInfoResponse.data.file.groups[0];
+    // Get file info using the Slack API
+    const fileInfo = await slackFileInfo(fileId);
 
-    /**
-     * If file isn't CSV, JSON or GeoJSON return
-     */
+    // Cache the channel ID
+    const channelId = fileInfo.groups[0];
+
+    // Only post `openBlock` if the file is a CSV, JSON or GeoJSON.
     if (['CSV', 'JSON', 'GEOJSON'].includes(fileInfo.pretty_type)) {
-      const postMessageResponse = await axios({
-        method: 'POST',
-        url: 'https://slack.com/api/chat.postMessage',
-        data: qs.stringify({
-          token: SLACK_BOT_TOKEN,
-          channel: channelId,
-          text: 'Hello World',
-          blocks: openBlock(fileId, fileInfo.name),
-        }),
-        headers: {
-          'content-type': 'application/x-www-form-urlencoded',
-        },
-      });
+      const block = openBlock(fileId, fileInfo.name);
 
-      console.log(postMessageResponse.data);
+      await slackPostMessage(channelId, block);
     }
-
-    // console.log('Axios Config =>', fileInfoResponse.config);
-    // console.log('File ID =>', fileInfoResponse.data);
-
-    /**
-     * Upload content to S3 bucket. Save with original file name.
-     * Return public URL.
-     */
-
-    /**
-     *
-     */
 
     return formatResponseObject(body);
   } catch (error) {

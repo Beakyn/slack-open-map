@@ -20,6 +20,8 @@ provider:
   environment:
     SLACK_APP_TOKEN: ${env:SLACK_APP_TOKEN}
     SLACK_BOT_TOKEN: ${env:SLACK_BOT_TOKEN}
+    AWS_S3_UPLOAD_BUCKET: ${env:AWS_S3_UPLOAD_BUCKET}
+    ROOT_URL: ${env:ROOT_URL}
     NODE_ENV: ${env:NODE_ENV}
 
 functions:
@@ -28,7 +30,29 @@ functions:
     description: Slack Map / Catch Event
     events:
       - http:
-          path: /
+          path: /event
+          method: post
+          cors:
+            origin: "*"
+            headers:
+              - Content-Type
+              - content-type
+              - Authorization
+              - authorization
+              - X-Tenant-ID
+              - x-tenant-id
+
+  actionCatch:
+    handler: src/functions/action.actionCatch
+    description: Slack Map / Catch Event
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+          - "s3:PutObject"
+        Resource: "arn:aws:s3:::${env:AWS_S3_UPLOAD_BUCKET}/*"
+    events:
+      - http:
+          path: /action
           method: post
           cors:
             origin: "*"
