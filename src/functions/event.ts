@@ -46,6 +46,11 @@ export const eventCatch = async (event) => {
       // Download file and cache it
       const fileContent = await slackGetFile(fileInfo.url_private_download);
 
+      // Validation boolean
+      let fileIsValid = true;
+
+      if (!fileIsValid) return formatResponseObject(body);
+
       // TODO: Validate that contains location data.
 
       // Cache the file URL
