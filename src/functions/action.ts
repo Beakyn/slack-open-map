@@ -52,7 +52,7 @@ export const actionCatch = async (event) => {
     // If the user says YES, proceed.
 
     // Cache the file URL
-    const url = uploadFileAndGetUrl(value);
+    const url = await uploadFileAndGetUrl(value);
 
     // Cache instructions block
     const block = instructionsBlock(url);
