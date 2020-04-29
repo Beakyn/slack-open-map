@@ -48,9 +48,8 @@ functions:
       - Effect: "Allow"
         Action:
           - "s3:PutObject"
-        Resource:
-          - "arn:aws:s3:::${env:AWS_S3_UPLOAD_BUCKET}"
-          - "arn:aws:s3:::${env:AWS_S3_UPLOAD_BUCKET}/*"
+          - "s3:PutObjectAcl"
+        Resource: "arn:aws:s3:::${env:AWS_S3_UPLOAD_BUCKET}/*"
     events:
       - http:
           path: /action
