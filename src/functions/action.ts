@@ -1,7 +1,7 @@
 import * as qs from 'querystring';
 import {formatResponseObject} from '../utils/response';
-import {slackFileInfo, slackPostMessage, slackDeleteMessage, slackGetFile} from '../utils/slack';
-import {instructionsBlock} from '../utils/message-blocks';
+import {slackFileInfo, slackPostMessage, slackDeleteMessage, slackGetFile} from '../utils/slack-utils';
+import {instructionsBlock} from '../utils/slack-messages';
 import shortId from '../utils/shortid';
 import {putS3Object} from '../utils/aws-s3';
 

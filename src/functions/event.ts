@@ -1,6 +1,6 @@
 import {formatResponseObject} from '../utils/response';
-import {slackFileInfo, slackPostMessage} from '../utils/slack';
-import {openBlock} from '../utils/message-blocks';
+import {slackFileInfo, slackPostMessage} from '../utils/slack-utils';
+import {openBlock} from '../utils/slack-messages';
 
 export const eventCatch = async (event) => {
   const body = event.body ? JSON.parse(event.body) : null;
