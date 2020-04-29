@@ -1,4 +1,4 @@
-export const openBlock = (fileId, fileName) =>
+export const openBlock = (fileUrl, fileName) =>
   JSON.stringify([
     {
       type: 'section',
@@ -21,7 +21,7 @@ export const openBlock = (fileId, fileName) =>
             emoji: true,
           },
           style: 'primary',
-          value: fileId,
+          value: fileUrl,
         },
         {
           type: 'button',

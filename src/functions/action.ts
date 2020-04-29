@@ -1,34 +1,8 @@
 import * as qs from 'querystring';
 
-import {putS3Object} from '../utils/aws-s3';
 import {formatResponseObject} from '../utils/response';
-import shortId from '../utils/shortid';
 import {instructionsBlock} from '../utils/slack-messages';
-import {
-  slackDeleteMessage,
-  slackFileInfo,
-  slackGetFile,
-  slackPostMessage,
-} from '../utils/slack-utils';
-
-const {ROOT_URL} = process.env;
-
-const uploadFileAndGetUrl = async (fileId) => {
-  // Get file info using the Slack API
-  const fileInfo = await slackFileInfo(fileId);
-
-  // Download file and cache it
-  const fileContent = await slackGetFile(fileInfo.url_private_download);
-
-  // Create a short id for the file name in S3
-  const id = shortId();
-
-  // Upload file to S3
-  await putS3Object(id, fileContent, fileInfo.pretty_type);
-
-  // Return the file URL
-  return `${ROOT_URL}/${id}.${fileInfo.pretty_type.toLowerCase()}`;
-};
+import {slackDeleteMessage, slackPostMessage} from '../utils/slack-utils';
 
 export const actionCatch = async (event) => {
   const parsedBody = qs.decode(event.body);
@@ -42,10 +16,10 @@ export const actionCatch = async (event) => {
     const value = body.actions[0]?.value;
 
     // Cache channel id
-    const channel = body.channel.id;
+    const channel = body.channel?.id;
 
     // Cache message time stamp
-    const ts = body.message.ts;
+    const ts = body.message?.ts;
 
     // If the user cancels, do nothing
     if (value === 'CANCEL') {
@@ -55,13 +29,12 @@ export const actionCatch = async (event) => {
       return formatResponseObject({message: 'CANCELED'});
     }
 
-    // If the user says YES, proceed.
-
-    // Cache the file URL
-    const url = await uploadFileAndGetUrl(value);
+    /**
+     * If the user says YES, proceed.
+     */
 
     // Cache instructions block
-    const block = instructionsBlock(url);
+    const block = instructionsBlock(value);
 
     await Promise.all([
       // Delete open block

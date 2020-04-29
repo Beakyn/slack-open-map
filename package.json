@@ -22,11 +22,16 @@
     "email": "contact@beakyn.com"
   },
   "dependencies": {
+    "@mapbox/geojson-normalize": "^0.0.1",
+    "assert": "^2.0.0",
     "aws-sdk": "2.665.0",
     "axios": "0.19.2",
+    "d3-array": "^2.4.0",
+    "d3-dsv": "^1.2.0",
     "lodash-pickdeep": "1.0.2",
     "querystring": "0.2.0",
-    "shortid": "2.2.15"
+    "shortid": "2.2.15",
+    "type-analyzer": "^0.2.5"
   },
   "devDependencies": {
     "@types/axios": "0.14.0",
