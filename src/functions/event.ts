@@ -20,8 +20,6 @@ const uploadFileAndGetUrl = async (fileContent, fileType) => {
 export const eventCatch = async (event) => {
   const body = event.body ? JSON.parse(event.body) : null;
 
-  console.log('===========================');
-
   try {
     // Return Challenge if asked
     if (body?.type === 'url_verification') return formatResponseObject({challenge: body.challenge});
@@ -39,7 +37,7 @@ export const eventCatch = async (event) => {
     const fileType = fileInfo.pretty_type.toLowerCase();
 
     // Cache the channel ID
-    const channelId = fileInfo.groups[0];
+    const channelId = fileInfo.channels.length ? fileInfo.channels[0] : fileInfo.groups[0];
 
     // Only post `openBlock` if the file is a CSV, JSON or GeoJSON.
     if (['csv', 'json', 'geojson'].includes(fileType)) {
