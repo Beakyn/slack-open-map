@@ -7,18 +7,33 @@ import {putS3Object} from '../utils/aws-s3';
 
 const {ROOT_URL} = process.env;
 
+const uploadFileAndGetUrl = async (fileId) => {
+  // Get file info using the Slack API
+  const fileInfo = await slackFileInfo(fileId);
+
+  // Download file and cache it
+  const fileContent = await slackGetFile(fileInfo.url_private_download);
+
+  // Create a short id for the file name in S3
+  const id = shortId();
+
+  // Upload file to S3
+  await putS3Object(id, fileContent, fileInfo.pretty_type);
+
+  // Return the file URL
+  return `${ROOT_URL}/${id}.${fileInfo.pretty_type.toLowerCase()}`;
+}
+
 export const actionCatch = async (event) => {
   const parsedBody = qs.decode(event.body);
   const payload: any = parsedBody.payload;
   const body = JSON.parse(payload);
 
-  console.log('TYPE ====>', body);
+  console.log(body);
 
   try {
     // Cache action value
     const value = body.actions[0]?.value;
-
-    console.log('value ', value);
 
     // Cache channel id
     const channel = body.channel.id;
@@ -36,22 +51,8 @@ export const actionCatch = async (event) => {
 
     // If the user says YES, proceed.
 
-    // Get file info using the Slack API
-    const fileInfo = await slackFileInfo(value);
-
-    // Download file and cache it
-    const fileContent = await slackGetFile(fileInfo.url_private_download);
-
-    // Create a short id for the file name in S3
-    const id = shortId();
-
-    // Upload file to S3
-    const s3PutObject = await putS3Object(id, fileContent, fileInfo.pretty_type);
-
     // Cache the file URL
-    const url = `${ROOT_URL}/${id}.${fileInfo.pretty_type.toLowerCase()}`;
-
-    console.log('s3PutObject  =>', s3PutObject);
+    const url = uploadFileAndGetUrl(value);
 
     // Cache instructions block
     const block = instructionsBlock(url);
