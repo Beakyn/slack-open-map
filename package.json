@@ -1,5 +1,5 @@
 {
-  "name": "slack-app",
+  "name": "@beakyn/slack-open-map",
   "version": "0.1.0",
   "description": "A Slack app to open files with location data on an external map.",
   "repository": {

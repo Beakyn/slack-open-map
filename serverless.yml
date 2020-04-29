@@ -1,4 +1,4 @@
-service: slack-map
+service: beakyn-slack-open-map
 
 frameworkVersion: ">=1.1.0 <2.0.0"
 

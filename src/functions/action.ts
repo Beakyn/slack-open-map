@@ -46,7 +46,7 @@ export const actionCatch = async (event) => {
       // Delete open block
       await slackDeleteMessage(channel, ts);
 
-      return formatResponseObject({action: 'CANCELED'});
+      return formatResponseObject({message: 'CANCELED'});
     }
 
     // If the user says YES, proceed.
@@ -65,7 +65,7 @@ export const actionCatch = async (event) => {
       slackPostMessage(channel, block),
     ])
 
-    return formatResponseObject({message: 'ok'});
+    return formatResponseObject({message: 'DONE'});
   } catch (error) {
     throw new Error(error);
   }
