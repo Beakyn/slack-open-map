@@ -21,8 +21,7 @@ export const slackFileInfo = async (file: string) => {
   } catch (error) {
     throw new Error(error);
   }
-}
-
+};
 
 export const slackPostMessage = async (channel: string, blocks) => {
   try {
@@ -44,7 +43,7 @@ export const slackPostMessage = async (channel: string, blocks) => {
   } catch (error) {
     throw new Error(error);
   }
-}
+};
 
 export const slackDeleteMessage = async (channel: string, ts: string) => {
   try {
@@ -65,7 +64,7 @@ export const slackDeleteMessage = async (channel: string, ts: string) => {
   } catch (error) {
     throw new Error(error);
   }
-}
+};
 
 export const slackGetFile = async (url: string) => {
   try {
@@ -82,5 +81,4 @@ export const slackGetFile = async (url: string) => {
   } catch (error) {
     throw new Error(error);
   }
-}
-
+};

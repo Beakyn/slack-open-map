@@ -1,5 +1,58 @@
 {
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/bower_components": true,
+    "**/dmp": true
+  },
+  "editor.formatOnSave": true,
+
+  // TS import formater
+  "importSorter.importStringConfiguration.maximumNumberOfImportExpressionsPerLine.type": "newLineEachExpressionAfterCountLimit",
+  "importSorter.importStringConfiguration.maximumNumberOfImportExpressionsPerLine.count": 100,
+  "importSorter.importStringConfiguration.tabSize": 2,
+  "importSorter.importStringConfiguration.trailingComma": "multi-line",
+  "importSorter.generalConfiguration.sortOnBeforeSave": true,
+  "importSorter.sortConfiguration.customOrderingRules.rules": [
+    {
+      "regex": "^(react)",
+      "orderLevel": 10,
+      "numberOfEmptyLinesAfterGroup": 0
+    },
+    {
+      "regex": "^(components|helpers|config|models|utils|pages|services|styles|utils|mapbox-gl)",
+      "orderLevel": 25,
+    },
+    {
+      "regex": "^[.]",
+      "orderLevel": 30
+    }
+  ],
+  "importSorter.importStringConfiguration.spacingPerImportExpression.afterStartingBracket": 0,
+  "importSorter.importStringConfiguration.spacingPerImportExpression.beforeEndingBracket": 0,
+  "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": false,
   "cSpell.words": [
-    "beakyn"
+    "aggs",
+    "beakyn",
+    "cbsa",
+    "chunkify",
+    "cors",
+    "cyclomatic",
+    "flattendeep",
+    "gatewayresponse",
+    "geopath",
+    "graph",
+    "graphql",
+    "netrate",
+    "nodesecurity",
+    "onsmart",
+    "panelid",
+    "pickdeep",
+    "qljson",
+    "splitted",
+    "stddev",
+    "tagsns",
+    "ungzip",
+    "viewshed",
+    "xray"
   ]
 }

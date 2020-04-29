@@ -1,17 +1,16 @@
 import {formatResponseObject} from '../utils/response';
-import {slackFileInfo, slackPostMessage} from '../utils/slack-utils';
 import {openBlock} from '../utils/slack-messages';
+import {slackFileInfo, slackPostMessage} from '../utils/slack-utils';
 
 export const eventCatch = async (event) => {
   const body = event.body ? JSON.parse(event.body) : null;
 
   try {
     // Return Challenge if asked
-    if (body?.type === 'url_verification')
-      return formatResponseObject({challenge: body.challenge});
+    if (body?.type === 'url_verification') return formatResponseObject({challenge: body.challenge});
 
     // Log the body for debugging
-    console.log(JSON.stringify(body))
+    console.log(JSON.stringify(body));
 
     // Cache file ID
     const fileId = body.event?.file_id;

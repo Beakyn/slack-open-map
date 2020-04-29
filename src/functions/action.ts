@@ -1,9 +1,15 @@
 import * as qs from 'querystring';
-import {formatResponseObject} from '../utils/response';
-import {slackFileInfo, slackPostMessage, slackDeleteMessage, slackGetFile} from '../utils/slack-utils';
-import {instructionsBlock} from '../utils/slack-messages';
-import shortId from '../utils/shortid';
+
 import {putS3Object} from '../utils/aws-s3';
+import {formatResponseObject} from '../utils/response';
+import shortId from '../utils/shortid';
+import {instructionsBlock} from '../utils/slack-messages';
+import {
+  slackDeleteMessage,
+  slackFileInfo,
+  slackGetFile,
+  slackPostMessage,
+} from '../utils/slack-utils';
 
 const {ROOT_URL} = process.env;
 
@@ -22,7 +28,7 @@ const uploadFileAndGetUrl = async (fileId) => {
 
   // Return the file URL
   return `${ROOT_URL}/${id}.${fileInfo.pretty_type.toLowerCase()}`;
-}
+};
 
 export const actionCatch = async (event) => {
   const parsedBody = qs.decode(event.body);
@@ -63,7 +69,7 @@ export const actionCatch = async (event) => {
 
       // Push the instructions block message
       slackPostMessage(channel, block),
-    ])
+    ]);
 
     return formatResponseObject({message: 'DONE'});
   } catch (error) {
