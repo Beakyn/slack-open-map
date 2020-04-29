@@ -24,6 +24,8 @@ export const eventCatch = async (event) => {
 
     // Only post `openBlock` if the file is a CSV, JSON or GeoJSON.
     if (['CSV', 'JSON', 'GEOJSON'].includes(fileInfo.pretty_type)) {
+      // TODO: Validate that contains location data.
+
       const block = openBlock(fileId, fileInfo.name);
 
       await slackPostMessage(channelId, block);
