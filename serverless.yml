@@ -22,6 +22,11 @@ provider:
     AWS_S3_UPLOAD_BUCKET: ${env:AWS_S3_UPLOAD_BUCKET}
     ROOT_URL: ${env:ROOT_URL}
     NODE_ENV: ${env:NODE_ENV}
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "s3:PutObject"
+      Resource: "arn:aws:s3:::${env:AWS_S3_UPLOAD_BUCKET}/*"
 
 functions:
   eventCatch:
@@ -43,12 +48,7 @@ functions:
 
   actionCatch:
     handler: src/functions/action.actionCatch
-    description: Slack Map / Catch Event
-    iamRoleStatements:
-      - Effect: "Allow"
-        Action:
-          - "s3:PutObject"
-        Resource: "arn:aws:s3:::${env:AWS_S3_UPLOAD_BUCKET}/*"
+    description: Slack Map / Catch Action
     events:
       - http:
           path: /action
